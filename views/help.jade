@@ -30,21 +30,41 @@ block content
       ul li strong {
       margin-right: 0.5em;
       }
+      
+      div.error {
+      background-color: #be0d28;
+      color: #fff;
+      text-align: center;
+      padding: 0.5em 0;
+      }
+      
+      p.description {
+      font-weight: 600;
+      font-style: italic;
+      }
+    - if (typeof(error) !== 'undefined'){
+    div.error #{error}
+    -}
     h1 Chart Help
     h2 ULR format
-    | HOST/charts/CHART/[CONDITION_1]/[CONDITION_2]/[CONDITION_3][?OPTIONS]
+    | HOST/charts/CHART/CONDITION_1/CONDITION_2/CONDITION_3[?OPTIONS]
+    p.description At least one country and one year must be specified. One and only one indicator must be specified.
     p Examples
     ul
       li
-        | HOST/charts/bar/YEAR(2010)
+        a(href='/charts/bar/YEAR(2010)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU%20G)') HOST/charts/bar/YEAR(2010)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU%20G)
       li
-        | HOST/charts/bar/YEAR(2010)/COUNTRY(ESP,FRA,BRA,EGY)
+        a(href='/charts/bar/YEAR(2010,2011)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU%20G)') HOST/charts/bar/YEAR(2010,2011)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU%20G)
       li
-        | HOST/charts/bar/YEAR(2010)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU G)
+        a(href='/charts/line/YEAR(2009,2010,2011)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU%20G)?width=900&height=500') HOST/charts/line/YEAR(2009,2010,2011)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU%20G)?width=900&height=500
       li
-        | HOST/charts/line/YEAR(2010)/COUNTRY(ESP,FRA,BRA,EGY)/INDICATOR(ITU G)?width=900&height=500
+        a(href='/charts/pie/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)') HOST/charts/pie/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)
       li
-        | HOST/charts/pie/YEAR(2010)/COUNTRY(ESP)/INDICATOR(ITU A)
+        a(href='/charts/pie/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true&valueOnItem.margin=35') HOST/charts/pie/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true&valueOnItem.margin=35
+      li
+        a(href='/charts/bar/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true&valueOnItem.margin=-5&valueOnItem.font-colour=%22%23fff%22') HOST/charts/bar/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true&valueOnItem.margin=-5&valueOnItem.font-colour=%22%23fff%22
+      li
+        a(href='/charts/line/YEAR(2008,2009,2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true') HOST/charts/line/YEAR(2008,2009,2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true
     | CHART values
     ul
       li
@@ -176,3 +196,23 @@ block content
       | name: "Third",
       | values: [0, 1, 2, 3, 4]
       | }]
+    h2 Values on items. 
+    | The item value can be shown.
+    ul
+      li
+        strong show
+        | Boolean. Indicates whether to show the value.
+        p.ie i.e. valueOnItem.show=false.
+      li
+        strong font-family
+        | String. Font family.
+        p.ie i.e. valueOnItem.font-family="Helvetica".
+      li
+        strong font-colour
+        | String representing a colour. Sets font colour.
+      li
+        strong font-size
+        | String representing a size. Sets legend font size.
+        p.ie i.e. valueOnItem.font-size="16px"
+    p.ie
+      a(href='/charts/pie/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true&valueOnItem.margin=35') HOST/charts/pie/YEAR(2010)/COUNTRY(ESP,FRA)/INDICATOR(ITU%20A)?valueOnItem.show=true&valueOnItem.margin=35

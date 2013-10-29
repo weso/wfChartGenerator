@@ -24,21 +24,35 @@ exports.index = function(req, res){
 	var second = req.params.second;
 	var third = req.params.third;
 	
-	var params = null;
-	
-	if ((params = processParams(first, second, third)).success == false) {
-		res.redirect('/help');
+	var params = processParams(first, second, third);
+
+	if (params.success == false) {
+		res.render('help', { error: 'Invalid URI' });
 		return;	
 	}
-	
-	/*
-		WHERE CONDITION
-	*/
-	
+
 	var yearCondition = params.data.years.getArray();
 	var indicatorCondition = params.data.indicators.getArray();
 	var countryCondition = params.data.countries.getArray();
-
+	
+	if (yearCondition.length == 0) {
+		res.render('help', { error: 'At least one year must be specified' });
+		return;
+	}
+	
+	if (indicatorCondition.length == 0) {
+		res.render('help', { error: 'One indicator must be specified' });
+		return;
+	}
+	else if (indicatorCondition.length > 1) {
+		res.render('help', { error: 'Only one indicator can be specified' });
+		return;
+	}
+	
+	if (countryCondition.length == 0) {
+		res.render('help', { error: 'At least one country must be specified' });
+		return;
+	}		
 
 	new DataBase().find(yearCondition, countryCondition, indicatorCondition, selectedSheet, function(data) {
 		data = processData(data);
@@ -99,7 +113,7 @@ function processParam(parameter, data) {
 		processCountries(result[1], data);
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -186,7 +200,7 @@ function processData(data) {
 function generateImage(response, chart, series, values, querySettings) {
 		 
 	// Default graph setting cloning
-	var settings = extend({}, graphSettings);	 
+	var settings = graphSettings();	 
 	 
 	mergeQuerySettingsAndDefaultSettings(querySettings, settings);
 		
@@ -281,7 +295,7 @@ function mergeQuerySettingsAndDefaultSettings(querySettings, defaultSettings) {
 			reference[referenceName] = value;
 		}
 		catch(e) {
-			
+			console.log(e)
 		}
 	}
 }
